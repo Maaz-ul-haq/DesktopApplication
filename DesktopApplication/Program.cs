@@ -1,25 +1,23 @@
+using DesktopApplication;
+using DesktopApplication.econtactClasses;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.IO;
 using System.Windows.Forms;
 
-namespace DesktopApplication
+internal static class Program
 {
-    internal static class Program
+    public static IConfiguration Configuration { get; private set; }
+
+    [STAThread]
+    static void Main()
     {
-        public static IConfiguration Configuration { get; private set; }
+        // Load configuration from appsettings.json
+        Configuration = new ConfigurationBuilder()
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
 
-        [STAThread]
-        static void Main()
-        {
-            // Load configuration from appsettings.json
-            Configuration = new ConfigurationBuilder()
-                .SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
-
-            ApplicationConfiguration.Initialize();
-            Application.Run(new Form1(Configuration));
-        }
+        ApplicationConfiguration.Initialize();
+        Application.Run(new Form1(Configuration));
     }
 }

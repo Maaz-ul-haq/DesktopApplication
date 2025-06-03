@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DesktopApplication.econtactClasses;
+using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -6,56 +7,9 @@ namespace DesktopApplication
 {
     partial class Form1 : Form
     {
-        private readonly IConfiguration _config;
-        private readonly string _connStr;
-
-        public Form1(IConfiguration config)
-        {
-            InitializeComponent();
-            _config = config;
-
-            // Get the connection string from appsettings.json
-            _connStr = _config.GetConnectionString("DefaultConnection");
-        }
-        // test comment
-        private void TestDatabaseConnection(string connStr)
-        {
-            using SqlConnection connection = new SqlConnection(connStr);
-            try
-            {
-                connection.Open();
-                MessageBox.Show("Database connection successful!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Connection failed: " + ex.Message);
-            }
-        }
-
-        public DataTable Select(string connStr)
-        {
-            using SqlConnection connection = new SqlConnection(connStr);
-            DataTable dt = new DataTable();
-            try
-            {
-
-                string sql = "SELECT * FROM tbl_contact";
-                SqlCommand cmd = new SqlCommand(sql, connection);
-
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-
-                connection.Open();
-                adapter.Fill(dt);
-            }
-            catch (Exception ex)
-            {
-            }
-            finally
-            {
-                connection.Close();
-            }
-            return dt;
-        }
+       
+      
+        
         /// <summary>
         ///  Required designer variable.
         /// </summary>
@@ -135,6 +89,7 @@ namespace DesktopApplication
             txtboxContactID.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             txtboxContactID.Location = new Point(154, 117);
             txtboxContactID.Name = "txtboxContactID";
+            txtboxContactID.ReadOnly = true;
             txtboxContactID.Size = new Size(205, 29);
             txtboxContactID.TabIndex = 2;
             // 
@@ -247,6 +202,7 @@ namespace DesktopApplication
             btnAdd.TabIndex = 13;
             btnAdd.Text = "Add";
             btnAdd.UseVisualStyleBackColor = false;
+            btnAdd.Click += btnAdd_Click;
             // 
             // btnUpdate
             // 
@@ -259,6 +215,7 @@ namespace DesktopApplication
             btnUpdate.TabIndex = 14;
             btnUpdate.Text = "Update";
             btnUpdate.UseVisualStyleBackColor = false;
+            btnUpdate.Click += btnUpdate_Click;
             // 
             // btnClear
             // 
@@ -271,6 +228,7 @@ namespace DesktopApplication
             btnClear.TabIndex = 15;
             btnClear.Text = "Clear";
             btnClear.UseVisualStyleBackColor = false;
+            btnClear.Click += btnClear_Click;
             // 
             // btnDelete
             // 
@@ -283,6 +241,7 @@ namespace DesktopApplication
             btnDelete.TabIndex = 16;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
             // 
             // dataGridView1
             // 
@@ -292,6 +251,8 @@ namespace DesktopApplication
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(411, 247);
             dataGridView1.TabIndex = 17;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dataGridView1.RowHeaderMouseClick += dataGridView1_RowHeaderMouseClick;
             // 
             // txtboxSearch
             // 
@@ -300,6 +261,7 @@ namespace DesktopApplication
             txtboxSearch.Name = "txtboxSearch";
             txtboxSearch.Size = new Size(348, 29);
             txtboxSearch.TabIndex = 19;
+            txtboxSearch.TextChanged += txtboxSearch_TextChanged;
             // 
             // lblSearch
             // 
@@ -311,7 +273,6 @@ namespace DesktopApplication
             lblSearch.Size = new Size(57, 21);
             lblSearch.TabIndex = 18;
             lblSearch.Text = "Search";
-            lblSearch.Click += label1_Click;
             // 
             // pictureBox2
             // 
@@ -322,6 +283,7 @@ namespace DesktopApplication
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 20;
             pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
             // 
             // Form1
             // 

@@ -17,7 +17,7 @@ namespace DesktopApplication
             // Get the connection string from appsettings.json
             _connStr = _config.GetConnectionString("DefaultConnection");
         }
-
+        // test comment
         private void TestDatabaseConnection(string connStr)
         {
             using SqlConnection connection = new SqlConnection(connStr);
